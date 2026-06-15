@@ -75,6 +75,18 @@ function rotate_xz({x,y,z},angle){
     }
 }
 
+// Rotate using trigonometry in z axis
+// Formula used is derived using sin(A+B) and cos(A+B) identities
+function rotate_xy({x,y,z},angle){
+    cos = Math.cos(angle);
+    sin = Math.sin(angle)
+    return {
+        x: x * cos - y * sin
+        ,y: x * sin + y * cos
+        ,z: z
+    }
+}
+
 //Draw a line between two points
 function line(p1,p2){
     ctx.lineWidth = 1;
@@ -103,8 +115,8 @@ function frame(){
         for (let i = 0; i < f.length ;++i){
             const a = vs[f[i]];
             const b = vs[f[(i+1)%f.length]];
-            line(screen(project(translate_z(rotate_xz(a, angle),1))) 
-            , screen(project(translate_z(rotate_xz(b, angle),1))));
+            line(screen(project(translate_z(rotate_xz(rotate_xy(a, angle),angle),1))) 
+            , screen(project(translate_z(rotate_xz(rotate_xy(b, angle),angle),1))));
         }
     }
 
